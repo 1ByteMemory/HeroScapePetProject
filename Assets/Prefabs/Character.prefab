@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c956f1e266e5d46aa18f3481dfa280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpaces: 2
+  availableSpacesMat: {fileID: 2100000, guid: abca0d1611a3bee45b791e23be523d59, type: 2}
+  landingSpaceMat: {fileID: 2100000, guid: 1727966848d06c744a2697bd9fdd6d7e, type: 2}
 --- !u!1001 &4277461331341478832
 PrefabInstance:
   m_ObjectHideFlags: 0
