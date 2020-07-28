@@ -11,7 +11,8 @@ public class Movement : MonoBehaviour
 
     GameObject[] availableSpaces;
 
-    int spacesUsed = 0;
+    [HideInInspector]
+    public int spacesUsed = 0;
     RaycastHit rayHit;
 
     // The size of the hexs
@@ -59,7 +60,7 @@ public class Movement : MonoBehaviour
                 rayHit.transform.GetComponent<Tile>().ChangeToDefault();
 
 		}
-
+        
         spacesUsed = 0;
 	}
 
