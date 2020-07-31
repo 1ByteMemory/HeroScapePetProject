@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class HexCell : MonoBehaviour
 {
-
 	public HexCoords coords;
 
+	public Color color;
 
 }

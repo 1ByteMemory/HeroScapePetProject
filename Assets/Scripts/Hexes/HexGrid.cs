@@ -5,8 +5,12 @@ using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour
 {
+
     public int width = 6;
     public int height = 6;
+
+	public Color defaultColor = Color.white;
+	public Color touchedColor = Color.red;
 
     public HexCell cellPrfab;
 
@@ -17,10 +21,14 @@ public class HexGrid : MonoBehaviour
 
     HexCell[] cells;
 
+	Camera cam;
+
 	private void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
+		
+
 
 		cells = new HexCell[height * width];
 
@@ -35,7 +43,29 @@ public class HexGrid : MonoBehaviour
 
 	private void Start()
 	{
+		cam = Camera.main;
 		hexMesh.Triangulate(cells);
+	}
+
+	private void Update()
+	{
+		if (Input.GetMouseButton(0))
+			HandleInput();
+	}
+
+	void HandleInput()
+	{
+		Ray inputRay = cam.ScreenPointToRay(Input.mousePosition);
+		if (Physics.Raycast(inputRay, out RaycastHit hit))
+			TouchCell(hit.point);
+	}
+
+	void TouchCell(Vector3 position)
+	{
+		position = transform.InverseTransformPoint(position);
+		HexCoords coords = HexCoords.FromPosition(position);
+		Debug.Log(coords.ToString());
+
 	}
 
 	void CreateCell(int x, int z, int i)
@@ -51,6 +81,7 @@ public class HexGrid : MonoBehaviour
 		cell.transform.localPosition = position;
 		cell.coords = HexCoords.FromOffsetCoords(x, z);
 
+		cell.color = defaultColor;
 
 		// Make hex cells more visable
 		Text label = Instantiate(cellLabelPrefab);

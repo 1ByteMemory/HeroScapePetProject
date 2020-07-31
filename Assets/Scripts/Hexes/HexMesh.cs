@@ -5,24 +5,31 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour
 {
-	Mesh hexMesh;
+	Mesh mesh;
+	MeshCollider meshCol;
 	List<Vector3> vertices;
 	List<int> triangles;
+	List<Color> colors;
 
 	private void Awake()
 	{
-		GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
-		hexMesh.name = "Hex Mesh";
+		GetComponent<MeshFilter>().mesh = mesh = new Mesh();
+		meshCol = gameObject.AddComponent<MeshCollider>();
+
+		mesh.name = "Hex Mesh";
 		vertices = new List<Vector3>();
+		colors = new List<Color>();
 		triangles = new List<int>();
+
 
 	}
 
 
 	public void Triangulate(HexCell[] cells)
 	{
-		hexMesh.Clear();
+		mesh.Clear();
 		vertices.Clear();
+		colors.Clear();
 		triangles.Clear();
 
 		for (int i = 0; i < cells.Length; i++)
@@ -30,9 +37,14 @@ public class HexMesh : MonoBehaviour
 			Triangulate(cells[i]);
 		}
 
-		hexMesh.vertices = vertices.ToArray();
-		hexMesh.triangles = triangles.ToArray();
-		hexMesh.RecalculateNormals();
+		mesh.vertices = vertices.ToArray();
+		mesh.colors = colors.ToArray();
+		mesh.triangles = triangles.ToArray();
+		mesh.RecalculateNormals();
+
+
+		//Assign mesh collider after finishing triangulating
+		meshCol.sharedMesh = mesh;
 
 	}
 
@@ -43,7 +55,7 @@ public class HexMesh : MonoBehaviour
 		for (int i = 0; i < 6; i++)
 		{
 			AddTriangle(center, center + HexMatrics.corners[i], center + HexMatrics.corners[i + 1]);
-
+			AddTriangleColor(cell.color);
 		}
 	}
 
@@ -60,5 +72,10 @@ public class HexMesh : MonoBehaviour
 
 	}
 
-
+	void AddTriangleColor(Color color)
+	{
+		colors.Add(color);
+		colors.Add(color);
+		colors.Add(color);
+	}
 }
