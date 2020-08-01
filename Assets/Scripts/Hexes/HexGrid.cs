@@ -47,24 +47,27 @@ public class HexGrid : MonoBehaviour
 		hexMesh.Triangulate(cells);
 	}
 
-	private void Update()
-	{
-		if (Input.GetMouseButton(0))
-			HandleInput();
-	}
 
-	void HandleInput()
-	{
-		Ray inputRay = cam.ScreenPointToRay(Input.mousePosition);
-		if (Physics.Raycast(inputRay, out RaycastHit hit))
-			TouchCell(hit.point);
-	}
 
-	void TouchCell(Vector3 position)
+
+	public void ColorCell(Vector3 position, Color color)
 	{
 		position = transform.InverseTransformPoint(position);
 		HexCoords coords = HexCoords.FromPosition(position);
-		Debug.Log(coords.ToString());
+
+		// Gets the index of the cell
+		// (I don't know why this works)
+		int index = coords.X + coords.Z * width + coords.Z / 2;
+
+		// Checks that index is in the range of the array
+		if (index >= cells.Length || index < 0)
+			return;
+
+		// get the cell using index
+		HexCell cell = cells[index];
+
+		cell.color = color;
+		hexMesh.Triangulate(cells);
 
 	}
 
