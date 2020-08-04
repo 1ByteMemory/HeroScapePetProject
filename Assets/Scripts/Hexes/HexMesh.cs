@@ -25,37 +25,29 @@ public class HexMesh : MonoBehaviour
 	}
 
 
-	public void Triangulate(HexCell[] cells)
+	void Triangulate(HexCell cell)
 	{
-		mesh.Clear();
-		vertices.Clear();
-		colors.Clear();
-		triangles.Clear();
-
-		for (int i = 0; i < cells.Length; i++)
+		// enums have int values, therfore you use a for loop like this to iterate through each enum state
+		for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
 		{
-			Triangulate(cells[i]);
+			Triangulate(d, cell);
 		}
-
-		mesh.vertices = vertices.ToArray();
-		mesh.colors = colors.ToArray();
-		mesh.triangles = triangles.ToArray();
-		mesh.RecalculateNormals();
-
-
-		//Assign mesh collider after finishing triangulating
-		meshCol.sharedMesh = mesh;
 
 	}
 
-	void Triangulate(HexCell cell)
+	void Triangulate(HexDirection direction, HexCell cell)
 	{
 		Vector3 center = cell.transform.localPosition;
 
 		for (int i = 0; i < 6; i++)
 		{
-			AddTriangle(center, center + HexMatrics.corners[i], center + HexMatrics.corners[i + 1]);
-			AddTriangleColor(cell.color);
+			AddTriangle(
+				center,
+				center + HexMatrics.GetFirstCorner(direction),
+				center + HexMatrics.GetSecondCorner(direction));
+
+			HexCell neighbor = cell.GetNeighbor(direction) ?? cell;
+			AddTriangleColor(cell.color, neighbor.color, neighbor.color);
 		}
 	}
 
@@ -72,10 +64,10 @@ public class HexMesh : MonoBehaviour
 
 	}
 
-	void AddTriangleColor(Color color)
+	void AddTriangleColor(Color c1, Color c2, Color c3)
 	{
-		colors.Add(color);
-		colors.Add(color);
-		colors.Add(color);
+		colors.Add(c1);
+		colors.Add(c2);
+		colors.Add(c3);
 	}
 }

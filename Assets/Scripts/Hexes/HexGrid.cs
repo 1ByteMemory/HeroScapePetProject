@@ -86,6 +86,40 @@ public class HexGrid : MonoBehaviour
 
 		cell.color = defaultColor;
 
+		if (x > 0)
+		{
+			cell.SetNeighbor(HexDirection.W, cells[i - 1]);
+		}
+		if (z > 0)
+		{
+			// this is a bitwise opertator. It's the sam as &&, but for each bit. 
+			// both bits of a pair need to be 1 for the result to be 1. 
+			// For example, 10101010 & 00001111 yields 00001010.
+
+			// This one checks if the numbers are even. To check for odd numbers, change the 0 to 1
+			if ((z & 1) == 0)
+			{
+				// Connect the SE cells
+				cell.SetNeighbor(HexDirection.SE, cells[i - width]);
+
+				// conect the SW cells (expect the first one)
+				if (x > 0)
+				{
+					cell.SetNeighbor(HexDirection.SW, cells[i - width - 1]);
+				}
+			}
+			else
+			{
+				cell.SetNeighbor(HexDirection.SW, cells[i - width]);
+
+				if (x < width - i)
+				{
+					cell.SetNeighbor(HexDirection.SE, cells[i - width + 1]);
+				}
+			}
+		}
+
+
 		// Make hex cells more visable
 		Text label = Instantiate(cellLabelPrefab);
 		label.rectTransform.SetParent(gridCanvas.transform, false);
