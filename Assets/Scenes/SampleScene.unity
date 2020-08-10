@@ -360,7 +360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &461673116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2027,9 +2027,9 @@ MonoBehaviour:
   grid: {fileID: 774965286}
   colors:
   - {r: 0.33962262, g: 0.20276728, b: 0.0240299, a: 1}
-  - {r: 1, g: 0.91049945, b: 0, a: 1}
-  - {r: 0.081301175, g: 0.8207547, b: 0.111508325, a: 1}
-  - {r: 0, g: 0.5642854, b: 0.9528302, a: 1}
+  - {r: 0.7254902, g: 0.6627451, b: 0, a: 1}
+  - {r: 0, g: 0.41509432, b: 0.014413041, a: 1}
+  - {r: 0, g: 0.28937882, b: 0.49056602, a: 1}
 --- !u!114 &1633039151
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -112,21 +112,21 @@ public class HexGrid : MonoBehaviour
 			{
 				cell.SetNeighbor(HexDirection.SW, cells[i - width]);
 
-				if (x < width - i)
+				if (x < width - 1)
 				{
 					cell.SetNeighbor(HexDirection.SE, cells[i - width + 1]);
 				}
 			}
 		}
 
-
-		// Make hex cells more visable
-		Text label = Instantiate(cellLabelPrefab);
-		label.rectTransform.SetParent(gridCanvas.transform, false);
-		label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-		label.text = cell.coords.ToStringOnSeperateLines();
-
-
+		if (gridCanvas != null)
+		{
+			// Make hex cells more visable
+			Text label = Instantiate(cellLabelPrefab);
+			label.rectTransform.SetParent(gridCanvas.transform, false);
+			label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
+			label.text = cell.coords.ToStringOnSeperateLines();
+		}
 	}
 
 }
